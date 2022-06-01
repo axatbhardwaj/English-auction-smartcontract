@@ -61,12 +61,12 @@ contract EnglishAuction {
             "Bid must be greater than or equal to current highest bid"
         );
         require(
-            msg.value >= startingPrice,
+            _bidAmount >= startingPrice,
             "Bid must be greater than or equal to starting price"
         );
-        bids[msg.sender] = msg.value;
+        bids[msg.sender] = _bidAmount;
         highestBidder = msg.sender;
-        emit Bid(msg.sender, msg.value);
+        emit Bid(msg.sender, _bidAmount);
     }
 
     function updateEndTime(uint256 _endTime) public {
