@@ -9,6 +9,19 @@ interface IERC721 {
     ) external;
 }
 
+interface IERC20 {
+    function balanceOf(address _owner) external view returns (uint256);
+
+    function safeTransfer(address _to, uint256 _value) external returns (bool);
+
+    function safeTransferFrom(
+        address tokenID,
+        address _from,
+        address _to,
+        uint256 _value
+    ) external returns (bool);
+}
+
 contract EnglishAuction {
     event Auctionstart();
     event Bid(address bidder, uint256 amount);
@@ -65,7 +78,11 @@ contract EnglishAuction {
             "Bid must be greater than or equal to starting price"
         );
         bids[msg.sender] = _bidAmount;
-        highestBidder = msg.sender;
+
+        if (_bidAmount > bids[highestBidder]) {
+            highestBidder = msg.sender;
+        }
+
         emit Bid(msg.sender, _bidAmount);
     }
 
